@@ -57,12 +57,18 @@ public class SQLiteLibraryLoader {
   protected void doLoad() {
     if (loaded) { return; }
 
+    System.out.println("Start loading");
+
     final long startTime = System.currentTimeMillis();
     final File extractedLibrary = getNativeLibraryPath();
 
+    System.out.println("extractedLibrary=" + extractedLibrary);
+
     if (isExtractedLibUptodate(extractedLibrary)) {
+      System.out.println("up to date");
       loadFromDirectory(extractedLibrary.getParentFile());
     } else {
+      System.out.println("extract");
       extractAndLoad(getLibraryStream(), extractedLibrary);
     }
 
@@ -99,7 +105,7 @@ public class SQLiteLibraryLoader {
   }
 
   private void log(final String message) {
-    // System.out.println(message);
+    System.out.println(message);
   }
 
   private boolean isExtractedLibUptodate(File extractedLib) {

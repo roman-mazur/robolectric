@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.fail;
 
 @RunWith(TestRunners.WithDefaults.class)
 public class SQLiteLibraryLoaderTest {
@@ -22,7 +23,13 @@ public class SQLiteLibraryLoaderTest {
   @Before
   public void deleteExtractedLibrary() {
     loader = new SQLiteLibraryLoader();
-    loader.getNativeLibraryPath().delete();
+
+    File nativeLibraryPath = loader.getNativeLibraryPath();
+    if (nativeLibraryPath.exists()) {
+      if (!nativeLibraryPath.delete()) {
+        fail("Cannot delete native library " + nativeLibraryPath);
+      }
+    }
   }
 
   @Before
